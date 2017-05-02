@@ -137,7 +137,9 @@ void vector_free(Vector *v)
 	}
 
 	free(v->data);
-	v->count = -1;
+	v->data = NULL;
+	v->count = 0;
+	v->bounds = 0;
 }
 
 void vector_free_and_free(Vector *v)
@@ -147,21 +149,20 @@ void vector_free_and_free(Vector *v)
 		return;
 	}
 
-	if (sizeof(v->data) / sizeof(void *) < v->count)
+	if (v->bounds < v->count)
 	{
 		printf("Error while attempting to free vector contents. Contents not freed.\n");
 	}
 	else
 	{
-		for (int i = 0; i < sizeof(v->data) / sizeof(void *); i++)
+		for (int i = 0; i < v->count; i++)
 		{
 			if (v->data[i] != NULL)
 			{
 				free(v->data[i]);
-				v->data[i] = NULL;
 			}
 		}
 	}
-	free(v->data);
-	v->count = -1;
+	
+	vector_free(v);
 }
