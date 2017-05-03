@@ -32,6 +32,10 @@ add_subdirectory (standalone)
 add_subdirectory (util)
 
 # Installation
+if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT AND CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux")
+	set (CMAKE_INSTALL_PREFIX "/opt" CACHE PATH "..." FORCE)
+endif ()
+
 install (TARGETS hiddenstar DESTINATION hs)
 install (FILES hidden-star.png DESTINATION hs)
 install (DIRECTORY audio DESTINATION hs)
