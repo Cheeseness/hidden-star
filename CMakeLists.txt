@@ -1,5 +1,6 @@
 cmake_minimum_required (VERSION 3.1)
 project (hiddenstar)
+set (CMAKE_SKIP_INSTALL_ALL_DEPENDENCY true)
 
 # SDL2
 find_package (PkgConfig REQUIRED)
