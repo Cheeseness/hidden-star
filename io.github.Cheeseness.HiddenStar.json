@@ -1,0 +1,42 @@
+{
+	"app-id": "io.github.Cheeseness.HiddenStar",
+	"runtime": "org.freedesktop.Platform",
+	"runtime-version": "1.6",
+	"sdk": "org.freedesktop.Sdk",
+	"command": "hiddenstar.sh",
+	"finish-args": [
+		"--socket=x11", "--socket=wayland",
+		"--socket=pulseaudio"
+	],
+	"rename-desktop-file": "hiddenstar.desktop",
+	"rename-icon": "hiddenstar",
+	"desktop-file-name-suffix": " (git master)", 
+	"modules": [
+		{
+		"name": "hidden-star",
+		"buildsystem": "cmake-ninja",
+		"make-args": ["hiddenstar"],
+		"build-commands": ["rm standalone/spin.html"],
+		"post-install": [
+			"install -D -m755 hiddenstar.sh /app/bin/hiddenstar.sh",
+			"install -D -m644 platform/linux/hiddenstar.desktop /app/share/applications/hiddenstar.desktop",
+			"install -D -m644 hidden-star.png /app/share/icons/hicolor/64x64/apps/hiddenstar.png"
+		],
+		"sources": [
+			{
+			"type": "git",
+			"url": "https://github.com/Cheeseness/hidden-star.git",
+			"branch": "master"
+			},
+			{
+			"type": "script",
+			"commands": [
+				"cd /app/hs",
+				"./hiddenstar $0"
+			],
+			"dest-filename": "hiddenstar.sh"
+			}
+		]
+		}
+	]
+}
