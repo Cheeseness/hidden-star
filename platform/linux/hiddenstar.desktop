@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Hidden Star
+Comment=Space exploration and combat game
+Icon=hiddenstar
+Exec=hiddenstar.sh
+Categories=Game;
+StartupNotify=true
