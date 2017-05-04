@@ -131,13 +131,12 @@ void vector_shuffle(Vector *v)
 
 void vector_free(Vector *v)
 {
-	if (v->data == NULL)
+	if (v->data != NULL)
 	{
-		return;
+		free(v->data);
+		v->data = NULL;
 	}
 
-	free(v->data);
-	v->data = NULL;
 	v->count = 0;
 	v->bounds = 0;
 }
