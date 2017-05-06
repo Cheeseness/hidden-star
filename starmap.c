@@ -182,9 +182,9 @@ void update_starmap_icons()
 				tex = t_node_current;
 			}
 
-			for (int i = 0; i < sizeof(cn->connections) / sizeof(Travel_Node *); ++i)
+			for (int j = 0; j < sizeof(cn->connections) / sizeof(Travel_Node *); ++j)
 			{
-				if (cn->connections[i] == t)
+				if (cn->connections[j] == t)
 				{
 					state = BUTTON_STATE_ENABLED;
 				}
@@ -429,15 +429,15 @@ bool check_connection(Vector *node_list, Travel_Node *na1, Travel_Node *na2)
 		nb1 = vector_get(node_list, i);
 
 		//Loop through each of this node's connections
-		for (int i = 0; i < sizeof(nb1->connections) / sizeof(Travel_Node *); ++i)
+		for (int j = 0; j < sizeof(nb1->connections) / sizeof(Travel_Node *); ++j)
 		{
-			if (nb1->connections[i] == NULL)
+			if (nb1->connections[j] == NULL)
 			{
 				continue;
 			}
 			else
 			{
-				nb2 = nb1->connections[i];
+				nb2 = nb1->connections[j];
 			}
 			
 			if ((nb1 == nb2) || ((nb1 == na1 && nb2 == na2) || (nb1 == na2 && nb2 == na1)))
@@ -497,9 +497,9 @@ void configure_connections(Vector *node_list, Travel_Node *n, int max_connection
 		{
 			Travel_Node *on = (Travel_Node *)vector_get(node_list, i);
 			bool available_connection = false;
-			for (int i = 0; i < sizeof(on->connections) / sizeof(Travel_Node *); ++i)
+			for (int j = 0; j < sizeof(on->connections) / sizeof(Travel_Node *); ++j)
 			{
-				if (on->connections[i] == NULL)
+				if (on->connections[j] == NULL)
 				{
 					available_connection = true;
 					break;
@@ -665,9 +665,9 @@ void remove_orphan_nodes(Vector *node_list)
 		if (!n->connected)
 		{
 			int connection_count = 0;
-			for (int i = 0; i < sizeof(n->connections) / sizeof(Travel_Node *); ++i)
+			for (int j = 0; j < sizeof(n->connections) / sizeof(Travel_Node *); ++j)
 			{
-				if (n->connections[i] != NULL)
+				if (n->connections[j] != NULL)
 				{
 					connection_count ++;
 				}
