@@ -122,7 +122,7 @@ int east2[10][10] = {
    {5, 5, 5, 3, 1, 5, 5, 5, 6, 0} ,
    {2, 2, 2, 0, 4, 5,12, 5, 6, 0} ,
    {0, 0, 0, 0, 4, 5, 5, 5, 6, 0} ,
-   {0, 0, 0, 0, 4, 5, 3, 2, 6, 0} ,
+   {0, 0, 0, 0, 4, 5, 3, 2, 0, 0} ,
    {0, 0, 0, 0, 0, 2, 0, 0, 0, 0} ,
    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0} ,
    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
@@ -260,6 +260,7 @@ int se1[10][10] = {
 
 int map1[30][30];
 int ent1[30][30];
+int exp1[30][30];
 
 SDL_Texture *ship1;
 SDL_Texture *capsule1;
@@ -294,7 +295,126 @@ void main_blit(SDL_Texture *tex, int x, int y, int MODE){
 	SDL_RenderCopyEx(main_renderer, tex, NULL, &rect, r, 0, 0);
 }
 
+void draw_pixel(int x, int y, int r, int g, int b){
+    SDL_Rect rect;
+	rect.x=x;
+	rect.y=y;
+	rect.w=1;
+	rect.h=1;
+	SDL_SetRenderDrawColor(main_renderer, r, g, b, 255);
+	SDL_RenderFillRect(main_renderer, &rect);
+}
+
+void draw_minimap(int tx, int ty){
+	SDL_SetRenderDrawBlendMode(main_renderer,SDL_BLENDMODE_BLEND);
+    SDL_Rect rect;
+        rect.x=0;
+        rect.y=0;
+        rect.w=64;
+        rect.h=64;
+	SDL_SetRenderDrawColor(main_renderer, 64, 0, 0, 192);
+	SDL_RenderFillRect(main_renderer, &rect);
+	rect.w=1;
+	rect.h=1;
+	for(int x=0;x<30;x++){
+		for(int y=0;y<30;y++){
+			int z=exp1[y][x];
+			int ix=x+(16-tx);
+			int iy=y+(16-ty);
+			switch (z){
+				case 0:
+					draw_pixel(ix*2, iy*2, 0, 0, 0);
+					draw_pixel(ix*2+1, iy*2, 0, 0, 0);
+					draw_pixel(ix*2, iy*2+1, 0, 0, 0);
+					draw_pixel(ix*2+1, iy*2+1, 0, 0, 0);
+				break;
+				case 1:
+					draw_pixel(ix*2, iy*2, 64, 64, 255);
+					draw_pixel(ix*2+1, iy*2, 64, 64, 255);
+					draw_pixel(ix*2, iy*2+1, 0, 0, 0);
+					draw_pixel(ix*2+1, iy*2+1, 64, 64, 255);
+				break;
+				case 2:
+					draw_pixel(ix*2, iy*2, 64, 64, 255);
+					draw_pixel(ix*2+1, iy*2, 64, 64, 255);
+					draw_pixel(ix*2, iy*2+1, 0, 0, 0);
+					draw_pixel(ix*2+1, iy*2+1, 0, 0, 0);
+				break;
+				case 3:
+					draw_pixel(ix*2, iy*2, 64, 64, 255);
+					draw_pixel(ix*2+1, iy*2, 64, 64, 255);
+					draw_pixel(ix*2, iy*2+1, 64, 64, 255);
+					draw_pixel(ix*2+1, iy*2+1, 0, 0, 0);
+				break;
+				case 4:
+					draw_pixel(ix*2, iy*2, 0, 0, 0);
+					draw_pixel(ix*2+1, iy*2, 64, 64, 255);
+					draw_pixel(ix*2, iy*2+1, 0, 0, 0);
+					draw_pixel(ix*2+1, iy*2+1, 64, 64, 255);
+				break;
+				case 5:
+					draw_pixel(ix*2, iy*2, 64, 64, 255);
+					draw_pixel(ix*2+1, iy*2, 64, 64, 255);
+					draw_pixel(ix*2, iy*2+1, 64, 64, 255);
+					draw_pixel(ix*2+1, iy*2+1, 64, 64, 255);
+				break;
+				case 6:
+					draw_pixel(ix*2, iy*2, 64, 64, 255);
+					draw_pixel(ix*2+1, iy*2, 0, 0, 0);
+					draw_pixel(ix*2, iy*2+1, 64, 64, 255);
+					draw_pixel(ix*2+1, iy*2+1, 0, 0, 0);
+				break;
+				case 7:
+					draw_pixel(ix*2, iy*2, 0, 0, 0);
+					draw_pixel(ix*2+1, iy*2, 64, 64, 255);
+					draw_pixel(ix*2, iy*2+1, 64, 64, 255);
+					draw_pixel(ix*2+1, iy*2+1, 64, 64, 255);
+				break;
+				case 8:
+					draw_pixel(ix*2, iy*2, 0, 0, 0);
+					draw_pixel(ix*2+1, iy*2, 0, 0, 0);
+					draw_pixel(ix*2, iy*2+1, 64, 64, 255);
+					draw_pixel(ix*2+1, iy*2+1, 64, 64, 255);
+				break;
+				case 9:
+					draw_pixel(ix*2, iy*2, 64, 64, 255);
+					draw_pixel(ix*2+1, iy*2, 0, 0, 0);
+					draw_pixel(ix*2, iy*2+1, 64, 64, 255);
+					draw_pixel(ix*2+1, iy*2+1, 64, 64, 255);
+				break;
+				case 10:
+					draw_pixel(ix*2, iy*2, 64, 128, 64);
+					draw_pixel(ix*2+1, iy*2, 64, 255, 64);
+					draw_pixel(ix*2, iy*2+1, 64, 255, 64);
+					draw_pixel(ix*2+1, iy*2+1, 64, 128, 64);
+				break;
+				case 11:
+					draw_pixel(ix*2, iy*2, 64, 64, 255);
+					draw_pixel(ix*2+1, iy*2, 128, 64, 64);
+					draw_pixel(ix*2, iy*2+1, 128, 64, 64);
+					draw_pixel(ix*2+1, iy*2+1, 64, 64, 255);
+				break;
+				case 12:
+					draw_pixel(ix*2, iy*2, 64, 64, 64);
+					draw_pixel(ix*2+1, iy*2, 64, 64, 255);
+					draw_pixel(ix*2, iy*2+1, 64, 64, 255);
+					draw_pixel(ix*2+1, iy*2+1, 64, 64, 64);
+				break;
+				default:
+				break;
+			}
+		}
+	}
+					
+	draw_pixel(32, 32, 255, 255, 255);
+	draw_pixel(33, 32, 255, 255, 255);
+	draw_pixel(32, 33, 255, 255, 255);
+	draw_pixel(33, 33, 255, 255, 255);
+}
+
 void draw_hyperspace(){
+	SDL_SetRenderDrawBlendMode(main_renderer,SDL_BLENDMODE_NONE);
+	SDL_SetRenderDrawColor(main_renderer, 0, 0, 0, 255);
 	SDL_RenderClear(main_renderer);
 	int tx=floor(loc_x/32);
 	int ty=floor(loc_y/32);
@@ -304,6 +424,9 @@ void draw_hyperspace(){
 			if(ty+iy>=0 && ty+iy<30 && tx+ix>=0 && tx+ix<30){
 				int z=map1[ty+iy][tx+ix];
 				int e=ent1[ty+iy][tx+ix];
+				if(ix > -1 && iy > -1 && ix < 3 && iy <3){
+					exp1[ty+iy][tx+ix]=z;
+				}
 	//			printf("x %d, y %d, z %d\n",tx+ix, ty+iy,z);
 				int bx=(((tx*32)-loc_x)+32*ix);
 				int by=(((ty*32)-loc_y)+32*iy);
@@ -326,7 +449,6 @@ void draw_hyperspace(){
 	main_blit(t_stars3,loc_x/-8,loc_y/-8,0);
 	main_blit(ship1,26,26,1);
 
-	SDL_RenderPresent(main_renderer);
 }
 
 
@@ -373,6 +495,7 @@ int setup(){
 		for(int iy=0;iy<30;iy++){
 			map1[ix][iy]=0;
 			ent1[ix][iy]=0;
+			exp1[ix][iy]=-1;
 		}
 	}
 
@@ -606,6 +729,7 @@ int last_time = SDL_GetTicks();
 int mouseX; int mouseY;
 int turn=0;
 int speed_toggle=0;
+int minimap_toggle=0;
 
 while(event.type != SDL_QUIT){
 	SDL_GetMouseState(&mouseX, &mouseY);
@@ -629,6 +753,9 @@ while(event.type != SDL_QUIT){
 					case SDLK_d:
 						turn=1;
 					break;
+					case SDLK_e:
+						minimap_toggle=1;
+					break;
 					default:
 					break;
 				}
@@ -641,6 +768,9 @@ while(event.type != SDL_QUIT){
 	current_time=SDL_GetTicks();
 	if((current_time-last_time) > 64){
 		const Uint8 *state = SDL_GetKeyboardState(NULL);
+		if(!(state[SDL_SCANCODE_E])){
+			minimap_toggle=0;
+		}
 		if(!(state[SDL_SCANCODE_D] || state[SDL_SCANCODE_A])){
 			turn=0;
 		}
@@ -656,7 +786,7 @@ while(event.type != SDL_QUIT){
 			speed_toggle=0;
 		}
 		if(speed_toggle==0){
-			speed-=1;
+			speed-=0.1;
 		}
 		if(speed_toggle<0){
 			speed-=2;
@@ -778,6 +908,10 @@ while(event.type != SDL_QUIT){
 		}
 		last_time=current_time;
 		draw_hyperspace();
+		if(minimap_toggle==1){
+			draw_minimap(tx, ty);
+		}
+		SDL_RenderPresent(main_renderer);
 	}
 }
 return 0;
